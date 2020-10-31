@@ -714,7 +714,7 @@ extern "C" {
         k4a_capture_t* capture_handle;
         PyObject *capsule;
         int thread_safe;
-        uint64_t image_timestamp_usec=0;
+        uint64_t image_timestamp_usec;
         PyThreadState *thread_state;
         k4a_result_t res = K4A_RESULT_FAILED;
 
@@ -739,8 +739,8 @@ extern "C" {
 
         if (K4A_RESULT_SUCCEEDED == res) {
             //return Py_BuildValue("kO", image_timestamp_usec,PyArray_Return(np_image));
-            return Py_BuildValue("O", PyArray_Return(np_image));
-            //PyArray_Return(np_image);
+            //return Py_BuildValue("O", PyArray_Return(np_image));
+            PyArray_Return(np_image);
         }
         else {
             free(image);
