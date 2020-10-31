@@ -729,7 +729,7 @@ extern "C" {
 
         thread_state = _gil_release(thread_safe);
         *image = k4a_capture_get_color_image(*capture_handle);
-        image_timestamp_usec=k4a_image_get_timestamp_usec(image);
+        image_timestamp_usec=k4a_image_get_timestamp_usec(*image);
         _gil_restore(thread_state);
 
         PyArrayObject* np_image;
