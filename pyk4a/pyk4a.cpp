@@ -744,8 +744,8 @@ extern "C" {
 //            PyTuple_SetItem(tupleresult, 0, PyArray_Return(np_image));
 //            PyTuple_SetItem(tupleresult, 1, PyArray_Return(np_image));
 //            return tupleresult;
-            PyObject *MyResult =  Py_BuildValue("Ok", PyArray_Return(np_image), image_timestamp_usec);
-            Py_DECREF(np_image);
+            PyObject *MyResult =  Py_BuildValue("Nk", PyArray_Return(np_image), image_timestamp_usec);
+            //Py_DECREF(np_image);
             return MyResult;
             //return PyArray_Return(np_image);
         }
