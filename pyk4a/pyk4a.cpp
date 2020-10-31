@@ -437,6 +437,14 @@ extern "C" {
         free(data);
         return res;
     }
+//    static PyObject* image_get_timestamp_usec(PyObject* self, PyObject* args){
+//        PyArg_ParseTuple(args, "OpO!I", &capsule, &thread_safe, &PyArray_Type, &in_array, &color_resolution);
+//        transformation_handle = (k4a_transformation_t*)PyCapsule_GetPointer(capsule, CAPSULE_TRANSFORMATION_NAME);
+//
+//        k4a_image_t* depth_image_transformed = (k4a_image_t*) malloc(sizeof(k4a_image_t));
+//
+//        k4a_image_t depth_image;
+//        res = numpy_to_k4a_image(in_array, &depth_image, K4A_IMAGE_FORMAT_DEPTH16);
 
     k4a_result_t k4a_image_to_numpy(k4a_image_t* img_src, PyArrayObject** img_dst){
         uint8_t* buffer = k4a_image_get_buffer(*img_src);
@@ -706,6 +714,7 @@ extern "C" {
         k4a_capture_t* capture_handle;
         PyObject *capsule;
         int thread_safe;
+        uint64_t image_timestamp_usec=0;
         PyThreadState *thread_state;
         k4a_result_t res = K4A_RESULT_FAILED;
 
@@ -720,6 +729,7 @@ extern "C" {
 
         thread_state = _gil_release(thread_safe);
         *image = k4a_capture_get_color_image(*capture_handle);
+        image_timestamp_usec=k4a_image_get_timestamp_usec(image);
         _gil_restore(thread_state);
 
         PyArrayObject* np_image;
@@ -728,7 +738,8 @@ extern "C" {
         }
 
         if (K4A_RESULT_SUCCEEDED == res) {
-            return PyArray_Return(np_image);
+            return Py_BuildValue("O!k",&PyArray_Type, &np_image, image_timestamp_usec);
+            //PyArray_Return(np_image);
         }
         else {
             free(image);

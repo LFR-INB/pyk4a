@@ -17,6 +17,7 @@ class PyK4ACapture:
         self._capture_handle: object = capture_handle  # built-in PyCapsule
         self.thread_safe = thread_safe
         self._color_format = color_format
+        self._color_timestamp_usec = None
 
         self._color: Optional[np.ndarray] = None
         self._depth: Optional[np.ndarray] = None
@@ -29,7 +30,7 @@ class PyK4ACapture:
     @property
     def color(self) -> Optional[np.ndarray]:
         if self._color is None:
-            self._color = k4a_module.capture_get_color_image(self._capture_handle, self.thread_safe)
+            self._color, self._color_timestamp_usec = k4a_module.capture_get_color_image(self._capture_handle, self.thread_safe)
         return self._color
 
     @property
