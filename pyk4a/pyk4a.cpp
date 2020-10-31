@@ -738,7 +738,6 @@ extern "C" {
         }
 
         if (K4A_RESULT_SUCCEEDED == res) {
-            free(image);
             //return Py_BuildValue("kO", image_timestamp_usec,PyArray_Return(np_image));
 //            PyObject *tupleresult = PyTuple_New(2);
 //            PyTuple_SetItem(tupleresult, 0, PyArray_Return(np_image));
