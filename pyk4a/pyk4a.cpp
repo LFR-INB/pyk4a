@@ -714,7 +714,7 @@ extern "C" {
         k4a_capture_t* capture_handle;
         PyObject *capsule;
         int thread_safe;
-        uint64_t image_timestamp_usec;
+        uint64_t image_timestamp_usec=0;
         PyThreadState *thread_state;
         k4a_result_t res = K4A_RESULT_FAILED;
 
@@ -729,7 +729,7 @@ extern "C" {
 
         thread_state = _gil_release(thread_safe);
         *image = k4a_capture_get_color_image(*capture_handle);
-        //image_timestamp_usec = k4a_image_get_device_timestamp_usec(*image);
+        image_timestamp_usec = k4a_image_get_device_timestamp_usec(*image);
         _gil_restore(thread_state);
 
         PyArrayObject* np_image;
