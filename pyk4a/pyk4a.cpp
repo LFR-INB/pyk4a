@@ -740,13 +740,13 @@ extern "C" {
         if (K4A_RESULT_SUCCEEDED == res) {
             free(image);
             //return Py_BuildValue("kO", image_timestamp_usec,PyArray_Return(np_image));
-            PyObject *tupleresult = PyTuple_New(2);
-            PyTuple_SetItem(tupleresult, 0, PyArray_Return(np_image));
-            PyTuple_SetItem(tupleresult, 1, PyArray_Return(np_image));
-            return tupleresult;
-//            PyObject *MyResult =  Py_BuildValue("Ok", np_image, image_timestamp_usec);
-//            Py_DECREF(np_image);
-//            return MyResult;
+//            PyObject *tupleresult = PyTuple_New(2);
+//            PyTuple_SetItem(tupleresult, 0, PyArray_Return(np_image));
+//            PyTuple_SetItem(tupleresult, 1, PyArray_Return(np_image));
+//            return tupleresult;
+            PyObject *MyResult =  Py_BuildValue("Ok", PyArray_Return(np_image), image_timestamp_usec);
+            Py_DECREF(np_image);
+            return MyResult;
             //return PyArray_Return(np_image);
         }
         else {
