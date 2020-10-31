@@ -30,7 +30,8 @@ class PyK4ACapture:
     @property
     def color(self) -> Optional[np.ndarray]:
         if self._color is None:
-                self._color_timestamp_usec, self._color = k4a_module.capture_get_color_image(self._capture_handle, self.thread_safe)
+                #self._color_timestamp_usec, self._color = k4a_module.capture_get_color_image(self._capture_handle, self.thread_safe)
+                self._color = k4a_module.capture_get_color_image(self._capture_handle, self.thread_safe)
         return self._color
 
     @property
