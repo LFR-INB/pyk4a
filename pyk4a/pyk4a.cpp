@@ -738,7 +738,7 @@ extern "C" {
         }
 
         if (K4A_RESULT_SUCCEEDED == res) {
-            return Py_BuildValue("O!k",&PyArray_Type, &np_image, image_timestamp_usec);
+            return Py_BuildValue("k", image_timestamp_usec);
             //PyArray_Return(np_image);
         }
         else {
