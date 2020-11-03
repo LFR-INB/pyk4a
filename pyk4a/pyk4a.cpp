@@ -728,7 +728,7 @@ extern "C" {
         }
 
         thread_state = _gil_release(thread_safe);
-        *image = k4a_capture_get_color_image(*capture_handle);
+        * = k4a_capture_get_color_image(*capture_handle);
         image_timestamp_usec = k4a_image_get_device_timestamp_usec(*image);
         _gil_restore(thread_state);
 
@@ -738,15 +738,8 @@ extern "C" {
         }
 
         if (K4A_RESULT_SUCCEEDED == res) {
-            //return Py_BuildValue("kO", image_timestamp_usec,PyArray_Return(np_image));
-//            PyObject *tupleresult = PyTuple_New(2);
-//            PyTuple_SetItem(tupleresult, 0, PyArray_Return(np_image));
-//            PyTuple_SetItem(tupleresult, 1, PyArray_Return(np_image));
-//            return tupleresult;
             PyObject *MyResult =  Py_BuildValue("Nk", PyArray_Return(np_image), image_timestamp_usec);
-            //Py_DECREF(np_image);
             return MyResult;
-            //return PyArray_Return(np_image);
         }
         else {
             free(image);
@@ -758,6 +751,7 @@ extern "C" {
         k4a_capture_t* capture_handle;
         PyObject *capsule;
         int thread_safe;
+        uint64_t image_timestamp_usec=0;
         PyThreadState *thread_state;
         k4a_result_t res = K4A_RESULT_FAILED;
 
@@ -772,6 +766,7 @@ extern "C" {
 
         thread_state = _gil_release(thread_safe);
         *image = k4a_capture_get_depth_image(*capture_handle);
+        image_timestamp_usec = k4a_image_get_device_timestamp_usec(*image);
         _gil_restore(thread_state);
 
         PyArrayObject* np_image;
@@ -780,7 +775,8 @@ extern "C" {
         }
 
         if (K4A_RESULT_SUCCEEDED == res) {
-            return PyArray_Return(np_image);
+            PyObject *MyResult =  Py_BuildValue("Nk", PyArray_Return(np_image), image_timestamp_usec);
+            return MyResult;
         }
         else {
             free(image);
@@ -792,6 +788,7 @@ extern "C" {
         k4a_capture_t* capture_handle;
         PyObject *capsule;
         int thread_safe;
+        int64_t image_timestamp_usec=0;
         PyThreadState *thread_state;
         k4a_result_t res = K4A_RESULT_FAILED;
 
@@ -806,6 +803,7 @@ extern "C" {
 
         thread_state = _gil_release(thread_safe);
         *image = k4a_capture_get_ir_image(*capture_handle);
+        image_timestamp_usec = k4a_image_get_device_timestamp_usec(*image);
         _gil_restore(thread_state);
 
         PyArrayObject* np_image;
@@ -814,7 +812,8 @@ extern "C" {
         }
 
         if (K4A_RESULT_SUCCEEDED == res) {
-            return PyArray_Return(np_image);
+            PyObject *MyResult =  Py_BuildValue("Nk", PyArray_Return(np_image), image_timestamp_usec);
+            return MyResult;
         }
         else {
             free(image);
