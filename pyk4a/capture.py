@@ -49,13 +49,13 @@ class PyK4ACapture:
 
     @property
     def transformed_depth(self) -> Optional[np.ndarray]:
-        if self._transformed_depth is None and self.depth is not None:
+        if self._transformed_depth is None and self.depth[0] is not None:
             self._transformed_depth = depth_image_to_color_camera(self._depth, self._calibration, self.thread_safe)
         return self._transformed_depth
 
     @property
     def depth_point_cloud(self) -> Optional[np.ndarray]:
-        if self._depth_point_cloud is None and self.depth is not None:
+        if self._depth_point_cloud is None and self.depth[0] is not None:
             self._depth_point_cloud = depth_image_to_point_cloud(
                 self._depth, self._calibration, self.thread_safe, calibration_type_depth=True,
             )
@@ -71,13 +71,13 @@ class PyK4ACapture:
 
     @property
     def transformed_color(self) -> Optional[np.ndarray]:
-        if self._transformed_color is None and self.depth is not None and self.color is not None:
+        if self._transformed_color is None and self.depth[0] is not None and self.color[0] is not None:
             if self._color_format != ImageFormat.COLOR_BGRA32:
                 raise RuntimeError(
                     "color color_image must be of color_format K4A_IMAGE_FORMAT_COLOR_BGRA32 for "
                     "transformation_color_image_to_depth_camera"
                 )
             self._transformed_color = color_image_to_depth_camera(
-                self.color, self.depth, self._calibration, self.thread_safe
+                self.color[0], self.depth[0], self._calibration, self.thread_safe
             )
         return self._transformed_color
